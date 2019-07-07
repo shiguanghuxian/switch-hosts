@@ -1,0 +1,1 @@
+[{"name":"基础配置","key":"base"},{"name":"系统HOSTS","key":"system"},{"name":"测试环境","key":"dev","check":true},{"name":"正式环境","key":"pro"}]
