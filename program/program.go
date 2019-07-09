@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"strings"
 
 	"github.com/fsnotify/fsnotify"
 	notify "github.com/getlantern/notifier"
@@ -208,9 +209,13 @@ func (p *Program) watcher() {
 				if event.Op&fsnotify.Write == fsnotify.Write {
 					log.Println("配置文件发生变化")
 					if runtime.GOOS == "darwin" {
-						// 配置变化直接退出，由界面程序拉起
-						systray.Quit()
-						os.Exit(0)
+						// 配置变化直接退出，由界面程序拉起 - 需要排除状态栏程序
+						if strings.Index(GetRootDir(), "switch-hosts.app") > 0 {
+						} else {
+							systray.Quit()
+							os.Exit(0)
+						}
+
 					} else {
 						err = p.GetDB().ReLoad()
 						if err != nil {
