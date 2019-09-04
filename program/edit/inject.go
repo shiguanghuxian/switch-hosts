@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/atotto/clipboard"
 	"github.com/shiguanghuxian/switch-hosts/program"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/zserge/webview"
@@ -230,4 +231,12 @@ func (js *InjectJs) RestartStateSwitchHosts() {
 			}
 		}()
 	}
+}
+
+// CtrlC 
+func (js *InjectJs) CtrlC(val string) {
+	if val == "" {
+		return
+	}
+	clipboard.WriteAll(val)
 }

@@ -176,6 +176,14 @@
                 // 刷新hosts配置列表
                 refreshHosts(){
                     this.getList()
+                },
+                // ctrl+c
+                ctrlC(){
+                    // 读取选中内容 - 复制到剪切板
+                    let val = this.edit.getSelection()
+                    if (typeof val != "undefined" && val != ""){
+                        this.inject.ctrlC(val);
+                    }
                 }
 
             },
@@ -189,6 +197,15 @@
                 this.edit = editor;
                 // 获取主机列表
                 this.getList();
+
+                let self = this;
+                document.onkeydown = function(e) {
+                    if(e.keyCode === 67 && e.ctrlKey){
+                        self.ctrlC()
+                    }else if(e.keyCode === 67 && e.metaKey){
+                        self.ctrlC()
+                    }
+                }
             }
 
 
