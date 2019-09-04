@@ -177,13 +177,21 @@
                 refreshHosts(){
                     this.getList()
                 },
-                // ctrl+c
+                // 复制
                 ctrlC(){
                     // 读取选中内容 - 复制到剪切板
                     let val = this.edit.getSelection()
                     if (typeof val != "undefined" && val != ""){
                         this.inject.ctrlC(val);
                     }
+                },
+                // 粘贴
+                ctrlV(){
+                    this.inject.ctrlV();
+                    window.setTimeout(() => {
+                        let val = this.inject.data.ClipboardTxt;
+                        this.edit.replaceSelection(val);
+                    }, 300)
                 }
 
             },
@@ -204,6 +212,10 @@
                         self.ctrlC()
                     }else if(e.keyCode === 67 && e.metaKey){
                         self.ctrlC()
+                    }else if(e.keyCode === 86 && e.ctrlKey){
+                        self.ctrlV()
+                    }else if(e.keyCode === 86 && e.metaKey){
+                        self.ctrlV()
                     }
                 }
             }

@@ -18,10 +18,11 @@ import (
 
 // InjectJs 此文件为注入js的对象，可以互操作
 type InjectJs struct {
-	program  *program.Program
-	w        webview.WebView
-	Body     string // 右侧hosts内容
-	HostList string // hosts列表
+	program      *program.Program
+	w            webview.WebView
+	Body         string // 右侧hosts内容
+	HostList     string // hosts列表
+	ClipboardTxt string // 粘贴板内容
 }
 
 // NewInjectJs 创建注入对象
@@ -233,10 +234,21 @@ func (js *InjectJs) RestartStateSwitchHosts() {
 	}
 }
 
-// CtrlC 
+// CtrlC 写入粘贴板
 func (js *InjectJs) CtrlC(val string) {
 	if val == "" {
 		return
 	}
 	clipboard.WriteAll(val)
+}
+
+// CtrlV 读取粘贴板
+func (js *InjectJs) CtrlV() {
+	val, err := clipboard.ReadAll()
+	if err != nil {
+		log.Println(err)
+		js.ClipboardTxt = ""
+		return
+	}
+	js.ClipboardTxt = val
 }
